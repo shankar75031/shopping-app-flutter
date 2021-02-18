@@ -11,6 +11,7 @@ class ProductsGrid extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
+      // If the value constructor is not used then when list scrolls there could be issues
       itemBuilder: (ctx, index) => ChangeNotifierProvider.value(
         value: products[index],
         child: ProductItem(

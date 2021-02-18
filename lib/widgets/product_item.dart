@@ -12,7 +12,9 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    // Using Consumer instead of Provider.of(context) the whole build method won't re-run when something change.
+    // For running only a sub-part of a widget tree that also can be done.
+    final product = Provider.of<Product>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -29,8 +31,12 @@ class ProductItem extends StatelessWidget {
         footer: GridTileBar(
           leading: IconButton(
             color: Theme.of(context).accentColor,
-            icon: Icon(
-                product.isFavourite ? Icons.favorite : Icons.favorite_border),
+            // Only the icon is built when product changes
+            icon: Consumer<Product>(
+              // child is the reference to the comsumer widget's child
+              builder: (ctx, product, child) => Icon(
+                  product.isFavourite ? Icons.favorite : Icons.favorite_border),
+            ),
             onPressed: () {
               product.toggleFavouriteStatus();
             },
