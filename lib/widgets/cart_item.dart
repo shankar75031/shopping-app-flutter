@@ -10,11 +10,11 @@ class CartItem extends StatelessWidget {
   final String productId;
 
   CartItem({
-    this.id,
-    this.price,
-    this.quantity,
-    this.title,
-    this.productId,
+    @required this.id,
+    @required this.price,
+    @required this.quantity,
+    @required this.title,
+    @required this.productId,
   });
 
   @override
