@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_shoppin/providers/cart.dart';
 import 'package:go_shoppin/providers/product.dart';
 import 'package:go_shoppin/screens/product_details_screen.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,8 @@ class ProductItem extends StatelessWidget {
     // Using Consumer instead of Provider.of(context) the whole build method won't re-run when something change.
     // For running only a sub-part of a widget tree that also can be done.
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -44,7 +47,13 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             icon: Icon(Icons.shopping_cart),
             color: Theme.of(context).accentColor,
-            onPressed: () {},
+            onPressed: () {
+              cart.addItem(
+                product.id,
+                product.price,
+                product.title,
+              );
+            },
           ),
           backgroundColor: Colors.black87,
           title: Text(
