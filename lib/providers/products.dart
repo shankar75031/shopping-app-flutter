@@ -65,7 +65,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     const url =
-        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products';
+        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products.json';
     // json encoding requires maps and cannot work with objects
     try {
       final response = await http.post(
