@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:go_shoppin/providers/products.dart';
 import 'package:go_shoppin/screens/edit_product_screen.dart';
