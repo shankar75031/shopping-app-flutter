@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:go_shoppin/providers/products.dart';
 import 'package:go_shoppin/screens/edit_product_screen.dart';
@@ -7,6 +9,10 @@ import 'package:provider/provider.dart';
 
 class UserProductsScreeen extends StatelessWidget {
   static const ROUTE_NAME = '/user/products';
+
+  // Future<void> _refreshProducts(BuildContext context) async {
+  //   await Provider.of<Products>(context).fetchAndSetProducts();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +31,22 @@ class UserProductsScreeen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: products.items.length,
-          itemBuilder: (ctx, index) => Column(
-            children: [
-              UserProductItem(
-                products.items[index].title,
-                products.items[index].imageUrl,
-                products.items[index].id,
-              ),
-              Divider(),
-            ],
+      body: RefreshIndicator(
+        onRefresh: products.fetchAndSetProducts,
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: products.items.length,
+            itemBuilder: (ctx, index) => Column(
+              children: [
+                UserProductItem(
+                  products.items[index].title,
+                  products.items[index].imageUrl,
+                  products.items[index].id,
+                ),
+                Divider(),
+              ],
+            ),
           ),
         ),
       ),
