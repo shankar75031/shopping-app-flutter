@@ -9,6 +9,7 @@ import 'package:go_shoppin/screens/edit_product_screen.dart';
 import 'package:go_shoppin/screens/orders_screen.dart';
 import 'package:go_shoppin/screens/product_details_screen.dart';
 import 'package:go_shoppin/screens/products_overview_screen.dart';
+import 'package:go_shoppin/screens/splash_screen.dart.dart';
 import 'package:go_shoppin/screens/user_products_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: Consumer<Auth>(
-        builder: (ctx, authData, child) => MaterialApp(
+        builder: (ctx, auth, child) => MaterialApp(
           title: '',
           theme: ThemeData(
             primarySwatch: Colors.purple,
@@ -48,7 +49,17 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato',
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: authData.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? ProductsOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) => authResultSnapshot
+                              .connectionState ==
+                          ConnectionState.waiting
+                      ? SplashScreen()
+                      // No need to check for authDataSnapshot data is true or false because the widget will reload on auth change
+                      : AuthScreen(),
+                ),
           routes: {
             ProductDetailsScreen.ROUTE_NAME: (ctx) => ProductDetailsScreen(),
             OrdersScreen.ROUTE_NAME: (ctx) => OrdersScreen(),
