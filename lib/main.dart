@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_shoppin/providers/auth.dart';
 import 'package:go_shoppin/providers/cart.dart';
 import 'package:go_shoppin/providers/orders.dart';
 import 'package:go_shoppin/providers/products.dart';
+import 'package:go_shoppin/screens/auth_screen.dart';
 import 'package:go_shoppin/screens/cart_screen.dart';
 import 'package:go_shoppin/screens/edit_product_screen.dart';
 import 'package:go_shoppin/screens/orders_screen.dart';
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
           value: Products(),
         ),
         ChangeNotifierProvider.value(
+          value: Auth(),
+        ),
+        ChangeNotifierProvider.value(
           value: Cart(),
         ),
         ChangeNotifierProvider.value(
@@ -38,10 +43,11 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato',
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: ProductsOverviewScreen(),
+        home: AuthScreen(),
         routes: {
           ProductDetailsScreen.ROUTE_NAME: (ctx) => ProductDetailsScreen(),
           OrdersScreen.ROUTE_NAME: (ctx) => OrdersScreen(),
+          AuthScreen.ROUTE_NAME: (ctx) => AuthScreen(),
           CartScreen.ROUTE_NAME: (ctx) => CartScreen(),
           UserProductsScreeen.ROUTE_NAME: (ctx) => UserProductsScreeen(),
           EditProductScreen.ROUTE_NAME: (ctx) => EditProductScreen(),
