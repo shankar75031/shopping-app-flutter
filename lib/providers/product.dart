@@ -9,7 +9,7 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String imageUrl;
-  bool isFavourite;
+  bool isFavorite;
 
   Product({
     @required this.id,
@@ -17,25 +17,25 @@ class Product with ChangeNotifier {
     @required this.description,
     @required this.price,
     @required this.imageUrl,
-    this.isFavourite = false,
+    this.isFavorite = false,
   });
 
   void _setFavValue(bool newValue) {
-    isFavourite = newValue;
+    isFavorite = newValue;
     notifyListeners();
   }
 
-  Future<void> toggleFavouriteStatus() async {
-    final oldStatus = isFavourite;
-    isFavourite = !isFavourite;
+  Future<void> toggleFavoriteStatus(String authToken) async {
+    final oldStatus = isFavorite;
+    isFavorite = !isFavorite;
     notifyListeners();
     final url =
-        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products/$id.json';
+        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken';
     // Optimistic updation : first update local value and revert if fails in server communication
     try {
       final response = await http.patch(url,
           body: json.encode({
-            'isFavorite': isFavourite,
+            'isFavorite': isFavorite,
           }));
       if (response.statusCode >= 400) {
         _setFavValue(oldStatus);

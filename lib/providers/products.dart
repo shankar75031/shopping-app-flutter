@@ -5,6 +5,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Products with ChangeNotifier {
+  String authToken;
+
+  void update(authToken) {
+    this.authToken = authToken;
+    notifyListeners();
+  }
+
   List<Product> _items = [
     // Product(
     //   id: 'p1',
@@ -44,14 +51,14 @@ class Products with ChangeNotifier {
 
   List<Product> get items {
     // if (_showFavoritesOnly) {
-    //   return _items.where((product) => product.isFavourite).toList();
+    //   return _items.where((product) => product.isFavorite).toList();
     // } else {
     return [..._items];
     // }
   }
 
   List<Product> get favoriteItems {
-    return _items.where((product) => product.isFavourite).toList();
+    return _items.where((product) => product.isFavorite).toList();
   }
 
   // void showFavoritesOnly() {
@@ -65,8 +72,8 @@ class Products with ChangeNotifier {
   // }
 
   Future<void> fetchAndSetProducts() async {
-    const url =
-        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products.json';
+    final url =
+        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -79,7 +86,7 @@ class Products with ChangeNotifier {
           description: productData['description'],
           price: productData['price'],
           imageUrl: productData['imageUrl'],
-          isFavourite: productData['isFavourite'],
+          isFavorite: productData['isFavorite'],
         ));
       });
       _items = loadedProducts;
@@ -90,8 +97,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url =
-        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products.json';
+    final url =
+        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products.json?auth=$authToken';
     // json encoding requires maps and cannot work with objects
     try {
       final response = await http.post(
@@ -101,7 +108,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
-          'isFavourite': product.isFavourite,
+          'isFavorite': product.isFavorite,
         }),
       );
       print(json.decode(response.body));
@@ -123,7 +130,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => product.id == prod.id);
     if (prodIndex >= 0) {
       final url =
-          'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products/${product.id}.json';
+          'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products/${product.id}.json?auth=$authToken';
       try {
         await http.patch(url,
             body: json.encode({
@@ -145,7 +152,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String productId) async {
     final url =
-        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products/$productId.json';
+        'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products/$productId.json?auth=$authToken';
     final existingProductIndex =
         _items.indexWhere((item) => item.id == productId);
     var existingProduct = _items[existingProductIndex];

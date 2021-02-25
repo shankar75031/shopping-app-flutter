@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_shoppin/providers/auth.dart';
 import 'package:go_shoppin/providers/cart.dart';
 import 'package:go_shoppin/providers/product.dart';
 import 'package:go_shoppin/screens/product_details_screen.dart';
@@ -17,6 +18,7 @@ class ProductItem extends StatelessWidget {
     // For running only a sub-part of a widget tree that also can be done.
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -38,10 +40,10 @@ class ProductItem extends StatelessWidget {
             icon: Consumer<Product>(
               // child is the reference to the comsumer widget's child
               builder: (ctx, product, child) => Icon(
-                  product.isFavourite ? Icons.favorite : Icons.favorite_border),
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
             ),
             onPressed: () {
-              product.toggleFavouriteStatus();
+              product.toggleFavoriteStatus(auth.token);
             },
           ),
           trailing: IconButton(

@@ -15,6 +15,13 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
+  String authToken;
+
+  void update(authToken) {
+    this.authToken = authToken;
+    notifyListeners();
+  }
+
   Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
