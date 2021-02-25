@@ -78,17 +78,14 @@ class Products with ChangeNotifier {
         filterByUser ? '&orderBy="creatorId"&equalTo="$userId"' : '';
     var url =
         'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/products.json?auth=$authToken$filterString';
-    print(url);
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) return;
-      print("User id is $userId");
       url =
           'https://shop-app-flutter-ca52d-default-rtdb.firebaseio.com/userFavorites/$userId.json?auth=$authToken';
       final favoriteResponse = await http.get(url);
       final favoriteData = json.decode(favoriteResponse.body);
-      print(favoriteResponse.body);
       final List<Product> loadedProducts = [];
       extractedData.forEach((productId, productData) {
         loadedProducts.add(Product(
