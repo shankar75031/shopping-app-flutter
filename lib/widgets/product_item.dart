@@ -28,8 +28,11 @@ class ProductItem extends StatelessWidget {
             Navigator.of(context).pushNamed(ProductDetailsScreen.ROUTE_NAME,
                 arguments: product.id);
           },
-          child: Image.network(
-            product.imageUrl,
+          child: FadeInImage(
+            placeholder: AssetImage('./assets/images/product-placeholder.png'),
+            image: NetworkImage(
+              product.imageUrl,
+            ),
             fit: BoxFit.cover,
           ),
         ),
