@@ -222,17 +222,18 @@ class _AuthCardState extends State<AuthCard>
         borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 8.0,
-      child: AnimatedBuilder(
-        animation: _heightAnimation,
-        builder: (ctx, child) => Container(
-          // height: _authMode == AuthMode.Signup ? 320 : 260,
-          height: _heightAnimation.value.height,
-          constraints:
-              // BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
-              BoxConstraints(minHeight: _heightAnimation.value.height),
-          width: deviceSize.width * 0.75,
-          padding: EdgeInsets.all(16.0), child: child,
-        ),
+      child: AnimatedContainer(
+        // AnimatedContainer will handle the value changes of dimensions automatically by animating.
+        // So we can get rid of the custom animation controller
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+        height: _authMode == AuthMode.Signup ? 320 : 260,
+        // height: _heightAnimation.value.height,
+        constraints:
+            BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+        // BoxConstraints(minHeight: _heightAnimation.value.height),
+        width: deviceSize.width * 0.75,
+        padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
