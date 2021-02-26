@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_shoppin/helpers/custom_route.dart';
 import 'package:go_shoppin/providers/auth.dart';
 import 'package:go_shoppin/providers/cart.dart';
 import 'package:go_shoppin/providers/orders.dart';
@@ -44,6 +45,10 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, child) => MaterialApp(
           title: '',
           theme: ThemeData(
+            pageTransitionsTheme: PageTransitionsTheme(builders: {
+              TargetPlatform.android: CustomPageTransitionBuilder(),
+              TargetPlatform.iOS: CustomPageTransitionBuilder(),
+            }),
             primarySwatch: Colors.purple,
             accentColor: Colors.deepOrangeAccent,
             fontFamily: 'Lato',
